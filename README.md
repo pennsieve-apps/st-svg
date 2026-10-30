@@ -133,7 +133,7 @@ Measured in the linux/amd64 image under emulation on an M-series Mac (Docker `--
 | TLS Visium, 8 samples | 2 082–4 431 spots × 2 000 | 39 s | 1.34 GB | 1.87 GB (0.68 GB page cache) |
 | Xenium breast, 2 full slides | 160 674 + 116 801 cells × 313 | 43 s | 1.34 GB | 1.50 GB |
 | Xenium breast, 20 k cells each | 19 189 + 19 669 × 313 | 19 s | 0.85 GB | 0.76 GB |
-| TLS Visium, `MODE=both N_PERMS=999` | as above | see below | | |
+| TLS Visium KC1 only, `MODE=both N_PERMS=999` | 4 090 spots × 2 000 | 978 s (one sample) | | 0.98 GB |
 
 About 15 s of each run is numba compiling scanpy's kernels on the first sample (emulated;
 cached in `/tmp/numba` for later samples), and ~0.8 GB of the RSS is the imported stack itself.
@@ -141,7 +141,11 @@ Memory grows with one sample's `X` (sparse) and graph; a Visium HD 8 µm sample 
 2 000 HVGs) should still fit in a few GiB, but `GENES=all` on such a sample, or permutations on
 hundreds of thousands of cells, can exceed Lambda's 15 minutes: use the standard compute type.
 
-Permutations cost roughly N_PERMS × the analytic test per mode; see the row above.
+**Permutations are expensive**: squidpy recomputes the statistic for every gene in every
+permutation, so the cost is about N_PERMS × the analytic test per mode. On one TLS sample,
+`MODE=both N_PERMS=999` took 16 minutes (502 genes significant against 436 analytically; the
+eight samples would take ~2 h). That is beyond Lambda's 15-minute limit: run permutations on the
+standard compute type with a longer `timeoutSeconds`, or keep the analytic default.
 
 ## Running it locally
 

@@ -52,7 +52,8 @@ parameters:
     description: >-
       0 = analytic p-values (normal approximation, fast; recommended). N > 0 = permutation
       p-values from N permutations; the smallest possible p-value is 1/(N+1), so with thousands of
-      genes N must be large for anything to pass the FDR.
+      genes N must be large for anything to pass the FDR. Permutations take minutes per sample
+      (16 min for one Visium sample with N=999 and MODE=both): run them on standard compute.
     defaultValue: 0
     min: 0
   - name: N_RINGS
