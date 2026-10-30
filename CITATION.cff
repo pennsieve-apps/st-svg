@@ -1,0 +1,218 @@
+cff-version: 1.2.0
+message: If you use this app, please cite it and the works it builds on, listed under references.
+type: software
+title: Spatially Variable Genes
+abstract: 'Finds the genes whose expression has a spatial pattern in spatial transcriptomics data: per sample, Moran''s
+  I (and optionally Geary''s C) on the spatial neighbour graph with squidpy, analytic or permutation p-values and
+  Benjamini-Hochberg FDR, and a consensus ranking over samples, with figures. Part of the Pennsieve spatial transcriptomics
+  workflows.'
+authors:
+- name: Pennsieve (University of Pennsylvania)
+repository-code: https://github.com/pennsieve-apps/st-svg
+license: Apache-2.0
+keywords:
+- spatial-transcriptomics
+- transcriptomics
+- genomics
+- single-cell
+- visium
+- xenium
+- merscope
+- cosmx
+- spatially-variable-genes
+- spatial-statistics
+references:
+- type: article
+  title: Notes on continuous stochastic phenomena
+  authors:
+  - family-names: Moran
+    given-names: P. A. P.
+  year: 1950
+  journal: Biometrika
+  volume: 37
+  issue: 1-2
+  start: 17
+  end: 23
+  doi: 10.1093/biomet/37.1-2.17
+- type: article
+  title: The Contiguity Ratio and Statistical Mapping
+  authors:
+  - family-names: Geary
+    given-names: R. C.
+  year: 1954
+  journal: The Incorporated Statistician
+  volume: 5
+  issue: '3'
+  start: 115
+  doi: 10.2307/2986645
+- type: article
+  title: 'Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing'
+  authors:
+  - family-names: Benjamini
+    given-names: Yoav
+  - family-names: Hochberg
+    given-names: Yosef
+  year: 1995
+  journal: 'Journal of the Royal Statistical Society Series B: Statistical Methodology'
+  volume: 57
+  issue: '1'
+  start: 289
+  end: 300
+  doi: 10.1111/j.2517-6161.1995.tb02031.x
+- type: article
+  title: 'SpatialDE: identification of spatially variable genes'
+  authors:
+  - family-names: Svensson
+    given-names: Valentine
+  - family-names: Teichmann
+    given-names: Sarah A
+  - family-names: Stegle
+    given-names: Oliver
+  year: 2018
+  journal: Nature Methods
+  volume: 15
+  issue: '5'
+  start: 343
+  end: 346
+  doi: 10.1038/nmeth.4636
+  identifiers:
+  - type: other
+    value: PMID:29553579
+    description: PubMed ID
+- type: article
+  title: 'Squidpy: a scalable framework for spatial omics analysis'
+  authors:
+  - family-names: Palla
+    given-names: Giovanni
+  - family-names: Spitzer
+    given-names: Hannah
+  - family-names: Klein
+    given-names: Michal
+  - family-names: Fischer
+    given-names: David
+  - family-names: Schaar
+    given-names: Anna Christina
+  - family-names: Kuemmerle
+    given-names: Louis Benedikt
+  - family-names: Rybakov
+    given-names: Sergei
+  - family-names: Ibarra
+    given-names: Ignacio L.
+  - family-names: Holmberg
+    given-names: Olle
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Lotfollahi
+    given-names: Mohammad
+  - family-names: Richter
+    given-names: Sabrina
+  - family-names: Theis
+    given-names: Fabian J.
+  year: 2022
+  journal: Nature Methods
+  volume: 19
+  issue: '2'
+  start: 171
+  end: 178
+  doi: 10.1038/s41592-021-01358-2
+  identifiers:
+  - type: other
+    value: PMID:35102346
+    description: PubMed ID
+- type: article
+  title: 'SCANPY: large-scale single-cell gene expression data analysis'
+  authors:
+  - family-names: Wolf
+    given-names: F. Alexander
+  - family-names: Angerer
+    given-names: Philipp
+  - family-names: Theis
+    given-names: Fabian J.
+  year: 2018
+  journal: Genome Biology
+  volume: 19
+  issue: '1'
+  start: 15
+  doi: 10.1186/s13059-017-1382-0
+  identifiers:
+  - type: other
+    value: PMID:29409532
+    description: PubMed ID
+- type: article
+  title: 'anndata: Access and store annotated data matrices'
+  authors:
+  - family-names: Virshup
+    given-names: Isaac
+  - family-names: Rybakov
+    given-names: Sergei
+  - family-names: Theis
+    given-names: Fabian J.
+  - family-names: Angerer
+    given-names: Philipp
+  - family-names: Wolf
+    given-names: F. Alexander
+  year: 2024
+  journal: Journal of Open Source Software
+  volume: 9
+  issue: '101'
+  start: 4371
+  doi: 10.21105/joss.04371
+- type: data
+  title: '10x Visium Spatial Transcriptomics Dataset: Kidney (3) and Lung (5) Cancer with Tertiary Lymphoid Structures'
+  authors:
+  - family-names: Dawo
+    given-names: Sebastian
+  - family-names: Nonchev
+    given-names: Kalin
+  - family-names: Silina
+    given-names: Karina
+  year: 2025
+  publisher:
+    name: Zenodo
+  doi: 10.5281/zenodo.14620362
+  license: CC-BY-4.0
+- type: article
+  title: High resolution mapping of the tumor microenvironment using integrated single-cell, spatial and in situ
+    analysis
+  authors:
+  - family-names: Janesick
+    given-names: Amanda
+  - family-names: Shelansky
+    given-names: Robert
+  - family-names: Gottscho
+    given-names: Andrew D.
+  - family-names: Wagner
+    given-names: Florian
+  - family-names: Williams
+    given-names: Stephen R.
+  - family-names: Rouault
+    given-names: Morgane
+  - family-names: Beliakoff
+    given-names: Ghezal
+  - family-names: Morrison
+    given-names: Carolyn A.
+  - family-names: Oliveira
+    given-names: Michelli F.
+  - family-names: Sicherman
+    given-names: Jordan T.
+  - family-names: Kohlway
+    given-names: Andrew
+  - family-names: Abousoud
+    given-names: Jawad
+  - family-names: Drennon
+    given-names: Tingsheng Yu
+  - family-names: Mohabbat
+    given-names: Seayar H.
+  - name: 10x Development Teams
+  - family-names: Taylor
+    given-names: Sarah E. B.
+  year: 2023
+  journal: Nature Communications
+  volume: 14
+  issue: '1'
+  start: 8353
+  doi: 10.1038/s41467-023-43458-x
+  identifiers:
+  - type: other
+    value: PMID:38114474
+    description: PubMed ID

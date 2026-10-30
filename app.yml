@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=https://schemas.pennsieve.io/app-manifest/v1.json
+schemaVersion: "1.0"
+application:
+  name: Spatially Variable Genes
+  description: >-
+    Finds the genes whose expression has a spatial pattern in spatial transcriptomics data: per
+    sample, Moran's I (and optionally Geary's C) of every highly variable gene on the spatial
+    neighbour graph (squidpy), with analytic or permutation p-values, Benjamini-Hochberg FDR, and
+    a rank; then a consensus over samples (in how many samples each gene is significant, mean
+    Moran's I, median rank). Runs on Visium, Visium HD and Slide-seq spots and on Xenium,
+    MERSCOPE and CosMx cells. Writes svg.csv, svg_consensus.csv, summary.json and figures (top
+    genes per sample on the H&E image, Moran's I distribution, consensus heatmap).
+  type: processor
+  tags:
+    - spatial-transcriptomics
+    - transcriptomics
+    - genomics
+    - single-cell
+    - visium
+    - xenium
+    - merscope
+    - cosmx
+    - spatially-variable-genes
+    - spatial-statistics
+runtime:
+  cpu: 1024
+  # Measured (linux/amd64 under emulation on an M-series Mac, 1 CPU): see README "Runtime".
+  memory: 3008
+  # A light step that a workflow can also run as a Lambda function (the image serves both, see
+  # processor/entry.py): image 2.2 GB (< 10 GB), peak memory on the demo data below 3008 MiB.
+  computeTypes:
+    - standard
+    - lambda
+  timeoutSeconds: 900
+parameters:
+  - name: GENES
+    type: string
+    description: >-
+      Genes to test: 'hvg' (var['highly_variable'] from st-qc; computed here when absent), 'all'
+      (every gene), or a comma-separated list of gene symbols. Genes detected in fewer than 3
+      observations, or constant, are not tested.
+    defaultValue: hvg
+  - name: MODE
+    type: string
+    description: "'moran' (Moran's I) or 'both' (also Geary's C, with its own p-values)."
+    defaultValue: moran
+    validValues:
+      - moran
+      - both
+  - name: N_PERMS
+    type: integer
+    description: >-
+      0 = analytic p-values (normal approximation, fast; recommended). N > 0 = permutation
+      p-values from N permutations; the smallest possible p-value is 1/(N+1), so with thousands of
+      genes N must be large for anything to pass the FDR.
+    defaultValue: 0
+    min: 0
+  - name: N_RINGS
+    type: integer
+    description: Visium hex grid only - rings of neighbours in the spatial graph (1 = the 6 adjacent spots).
+    defaultValue: 1
+    min: 1
+  - name: NEIGHBOURS
+    type: string
+    description: >-
+      Non-grid data - 'delaunay' for the Delaunay triangulation (cells), or an integer k for the k
+      nearest neighbours (6 for Visium HD / Slide-seq bins).
+    defaultValue: delaunay
+  - name: MAX_NEIGHBOUR_DISTANCE
+    type: number
+    description: >-
+      Non-grid data - edges longer than this times uns['pennsieve']['spot_diameter'] are dropped
+      so sparse regions don't connect across gaps; 0 = no cap.
+    defaultValue: 3.0
+    min: 0
+  - name: FDR
+    type: number
+    description: A gene is significant in a sample when its BH-adjusted p-value is below this (and Moran's I is above its expectation).
+    defaultValue: 0.05
+    min: 0
+    max: 1
+  - name: TOP_N
+    type: integer
+    description: Genes per sample in the spatial figure, in summary.json, and in the consensus figure.
+    defaultValue: 12
+    min: 0
+  - name: SEED
+    type: integer
+    description: Seed for the permutations (N_PERMS > 0).
+    defaultValue: 42
+  - name: THREADS
+    type: integer
+    description: Threads for numba/BLAS; 0 = from the container's CPU quota.
+    defaultValue: 0
+    min: 0
+# Each input in its own folder (placement: subfolder) when linked; without links the files are
+# found by name anywhere under INPUT_DIR.
+inputs:
+  - name: spatial
+    description: >-
+      <sample_id>.h5ad per sample as st-qc writes them: X log-normalized (raw counts from st-prep
+      are normalized here), var['highly_variable'], obsm['spatial'], uns['pennsieve'] (grid,
+      spot_diameter) and, for Visium, the lowres image. layers['counts'] is not read.
+    mediaTypes:
+      - application/x-hdf5
+    formats:
+      - format_3590
+    placement: subfolder
+    required: true
+  - name: metadata
+    description: st-prep's samples.csv (sample_id, path, platform, kind, condition, ...), to order the samples.
+    mediaTypes:
+      - text/csv
+      - application/json
+    placement: subfolder
+    required: false
+# One output: the whole of OUTPUT_DIR (st-svg runs once per workflow and writes at the root).
+outputs:
+  - name: svg
+    description: >-
+      svg.csv (sample_id, gene, morans_i, pval, pval_adj, significant, rank; with MODE=both also
+      gearys_c, gearys_pval, gearys_pval_adj), svg_consensus.csv (gene, n_samples, n_significant,
+      mean_morans_i, median_rank, rank), summary.json, <sample_id>_svg_top.png,
+      morans_distribution.png, consensus_top.png, provenance.json.
+    mediaTypes:
+      - text/csv
+      - application/json
+      - image/png
