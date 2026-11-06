@@ -103,7 +103,7 @@ inputs:
       are normalized here), var['highly_variable'], obsm['spatial'], uns['pennsieve'] (grid,
       spot_diameter) and, for Visium, the lowres image. layers['counts'] is not read.
     mediaTypes:
-      - application/x-hdf5
+      - "application/x-hdf5; profile=anndata"
     formats:
       - format_3590
     placement: subfolder
