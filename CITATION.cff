@@ -1,5 +1,6 @@
 cff-version: 1.2.0
-message: If you use this app, please cite it and the works it builds on, listed under references.
+message: >-
+  If you use this app, please cite the work it implements (preferred-citation), this release, and Pennsieve (RRID:SCR_021677); the other works it builds on are listed under references.
 type: software
 title: Spatially Variable Genes
 abstract: 'Finds the genes whose expression has a spatial pattern in spatial transcriptomics data: per sample, Moran''s
@@ -21,6 +22,20 @@ keywords:
 - cosmx
 - spatially-variable-genes
 - spatial-statistics
+# The work this app implements; the release report's "How to cite" puts it first.
+preferred-citation:
+  type: article
+  title: Notes on continuous stochastic phenomena
+  authors:
+  - family-names: Moran
+    given-names: P. A. P.
+  year: 1950
+  journal: Biometrika
+  volume: 37
+  issue: 1-2
+  start: 17
+  end: 23
+  doi: 10.1093/biomet/37.1-2.17
 references:
 - type: article
   title: Notes on continuous stochastic phenomena
